@@ -1,30 +1,12 @@
 var http = require('http')
 var url = require('url')
-var mysql = require('mysql')
-
-var client = mysql.createConnection({
-	host: 'localhost',
-	port: '3306',
-	user: 'root',
-	password: 'root',
-})
-client.connect()
-
-
-// http.createServer(function(req, res) {
-	
-// 	var args = url.parse(req.url, true).query
-// 	queryLastReleaseDate(args, req, res)
-	
-// 	// client.end()
-// }).listen(8000)
 
 /**
  * 获取指定银行、指定货币最新更新时间
  * @param  {String} args 参数字典
  * @return {String}      最后的更新时间
  */
-function queryLastReleaseDate(args, req, res){
+function queryLastReleaseDate(args, req, res, client){
 
 	var db = 'exchange'
 	var record = {}
@@ -55,12 +37,12 @@ function queryLastReleaseDate(args, req, res){
 			record['lastReleaseDate'] = lastUpdateDate
 			record['lastReleaseTime'] = lastUpdateTime
 			
-			queryExchange(record, req, res)
+			queryExchange(record, req, res, client)
 		}
 	})
 }
 
-function queryExchange(args, req, res){
+function queryExchange(args, req, res, client){
 	var db = 'exchange'
 	var bank = args['bank']
 	var currency = args['currency']

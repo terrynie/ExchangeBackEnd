@@ -1,16 +1,7 @@
 var http = require('http')
 var url = require('url')
-var mysql = require('mysql')
 
-var client = mysql.createConnection({
-	host: 'localhost',
-	port: '3306',
-	user: 'root',
-	password: 'root',
-})
-client.connect()
-
-function login(args, req, res){
+function login(args, req, res, client){
 
 	var db = 'exchange'
 	
@@ -23,13 +14,12 @@ function login(args, req, res){
 			sql += 'and ' + arg + "='" + args[arg] + "' "
 		}
 	}
-	console.log(sql)
 	client.query("use " + db)
 	client.query(sql, function (err, results, fields) {
 		if (err) {
 			console.log(err)
 		}
-		if (results.length!=0) {
+		if (results.toString() != [].toString()) {
 			var dict = {login:'true'}
 			res.end(JSON.stringify(dict))
 		}else {
