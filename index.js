@@ -4,6 +4,8 @@ var exchange = require('./exchange')
 var login = require('./login')
 var signup = require('./signup')
 var router = require('./router')
+var queryByBank = require('./queryByBank')
+var queryByCurrency = require('./queryByCurrency')
 var mysql = require('mysql')
 
 var client = mysql.createConnection({
@@ -18,6 +20,8 @@ var handle = {}
 handle['/'] = login.login
 handle['/exchange'] = exchange.queryLastReleaseDate
 handle['/signup'] = signup.signup
+handle['/queryByBank'] = queryByBank.queryByBank
+handle['/queryByCurrency'] = queryByCurrency.queryByCurrency
 
 http.createServer(function(req, res) {
 	
