@@ -21,7 +21,6 @@ function queryByBank(args, req, res, client) {
 			data['last'] = {}
 			for (var i = 0; i < results.length; i++) {
 				var dict = {}
-				console.log(results[i].bank)
 				if (results[i].flag==1) {
 					dict['bank'] = results[i].bank
 					dict['currency'] = results[i].currency

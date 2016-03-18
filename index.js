@@ -14,7 +14,28 @@ var client = mysql.createConnection({
 	user: 'root',
 	password: 'root',
 })
-client.connect()
+
+function handleError () {
+
+    //连接错误，2秒重试
+    client.connect(function (err) {
+        if (err) {
+            console.log('error when connecting to db:', err);
+            setTimeout(handleError , 2000);
+        }
+    });
+
+    client.on('error', function (err) {
+        console.log('db error', err);
+        // 如果是连接断开，自动重新连接
+        if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+            handleError();
+        } else {
+            throw err;
+        }
+    });
+}
+handleError();
 
 var handle = {}
 handle['/'] = login.login
