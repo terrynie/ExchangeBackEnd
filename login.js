@@ -19,7 +19,8 @@ function login(args, req, res, client){
 		if (err) {
 			console.log(err)
 		}
-		if (results.toString() != [].toString()) {
+		console.log(results)
+		if (results.length != 0) {
 			var dict = {login:'true'}
 			res.end(JSON.stringify(dict))
 		}else {
